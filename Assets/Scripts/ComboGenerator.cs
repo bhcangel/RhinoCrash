@@ -23,7 +23,7 @@ public class ComboGenerator : MonoBehaviour
                     arrowList[order++].transform.GetComponent<Renderer>().material.color = Color.red;
                 else
                 {
-                    for (int i = 0; i < arrowList.Capacity; i++)
+                    for (int i = 0; i < arrowList.Count; i++)
                         arrowList[i].transform.GetComponent<Renderer>().material.color = Color.white;
                     order = 0;
                 }
@@ -34,28 +34,43 @@ public class ComboGenerator : MonoBehaviour
                     arrowList[order++].transform.GetComponent<Renderer>().material.color = Color.red;
                 else
                 {
-                    for (int i = 0; i < arrowList.Capacity; i++)
+                    for (int i = 0; i < arrowList.Count; i++)
                         arrowList[i].transform.GetComponent<Renderer>().material.color = Color.white;
                     order = 0;
                 }
             }
 
-            if (arrowList.Capacity == order)
+            if (arrowList.Count == order)
             {
-                for (int i = 0; i < arrowList.Capacity; i++)
+                PlayerController.score += Count;
+                Count = 0;
+                for (int i = 0; i < arrowList.Count; i++)
                     Destroy(arrowList[i]);
                 arrowList.Clear();
                 stop = false;
                 PlayerController.canMove = true;
                 if (ItemController.itemcount < 3)
-                {
                     ItemController.itemcount += 1;
-
-                }
                 GameObject item = GameObject.Find("ItemController");
                 item.GetComponent<ItemController>().Item();
                 PlayerController.canMove = true;
                 order = 0;
+            }
+
+            if (Count > 7)
+            {
+                for (int i = 0; i < arrowList.Count; i++)
+                    Destroy(arrowList[i]);
+                arrowList.Clear();
+                stop = false;
+                PlayerController.canMove = true;
+                order = 0;
+
+                Count = 0;
+                GameObject director = GameObject.Find("GameDirector");
+                for (int i = 0; i < 4; i++)
+                    director.GetComponent<GameDirector>().DecreaseHp();
+                    
             }
         }
     }
@@ -63,8 +78,7 @@ public class ComboGenerator : MonoBehaviour
     public void GenerateCombo(int num)
     {
         arrowList.Clear();
-        System.Random rand = new System.Random();
-        int randNum = rand.Next();
+        int randNum = GameDirector.rand.Next();
         float xpos = -10f;
         for (int i = 0; i < num; i++)
         {
@@ -75,12 +89,14 @@ public class ComboGenerator : MonoBehaviour
             else
                 arrow.transform.localScale = new Vector3(-0.5f, 0.5f, 0);
             arrowList.Add(arrow);
-            //arrow = null;
             randNum /= 2;
             xpos += 1f;
         }
         stop = true;
-        //arrowList[0].transform.GetComponent<Renderer>().material.color = Color.white;
-        //arrowList[1].transform.GetComponent<Renderer>().material.color = Color.red;
+        Debug.Log(arrowList.Count.ToString());
+    }
+    private void OnApplicationQuit()
+    {
+        Debug.Log("Quit");
     }
 }

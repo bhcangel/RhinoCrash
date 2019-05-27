@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
     private int line;
+    public static float score = 0;
     public static bool canMove = true;
     bool pastStatus = true;
     bool isChangedNow = false;
@@ -37,12 +38,28 @@ public class PlayerController : MonoBehaviour {
             if (pastStatus)
             {
                 GameObject combo = GameObject.Find("ComboGenerator");
-                combo.GetComponent<ComboGenerator>().GenerateCombo(8);
+                combo.GetComponent<ComboGenerator>().GenerateCombo(GameDirector.stage > 1 ? 8 : 6);
             }
         }
         pastStatus = canMove;
-        if (mobGenerator.count == 5)
-            canMove = false;
+
+        if (GameDirector.stage == 1)
+        {
+            for (int i = 1; i < 3; i++)
+            {
+                if (mobGenerator.count == i * 30)
+                    canMove = false;
+            }
+        }
+        else
+        {
+            for(int i = 1; i < 6; i++)
+            {
+                if (mobGenerator.count == i * 50)
+                    canMove = false;
+            }
+        }
+
         if (canMove && !isChangedNow)
         {
             rend.material.color = nonTransparent;

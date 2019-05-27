@@ -3,18 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MobController : MonoBehaviour {
-
     GameObject player;
     Vector3 downVector;
     public int line;
-    public static float speed;
-    public static int Damaged_count = 0;    //맞은 횟수
+    float speed;
+    
 
-    // Use this for initialization
-    void Start () {
+	// Use this for initialization
+	void Start () {
         this.player = GameObject.Find("player"); //player 오브젝트 찾아서 객체로 추가
         this.downVector = new Vector3(0.03f, 0.03f, 0);
-        speed = -0.03f;
+        speed = GameDirector.stage == 1 ? -0.02f : -0.04f;
         if (transform.position.x == -1.3f)
             line = 1;
         else if (transform.position.x == -0.4f)
@@ -23,6 +22,7 @@ public class MobController : MonoBehaviour {
             line = 3;
         else
             line = 4;
+        Debug.Log("pool = " + transform.position.x.ToString());
     }
 	
 	// Update is called once per frame
@@ -64,20 +64,19 @@ public class MobController : MonoBehaviour {
         {
             //충돌시 몹을 소멸시킨다.
             Destroy(gameObject);
-            Damaged_count++;
+            
 
             //감독 스크립트에 플레이어와 몹이 충돌했다고 전달
             GameObject director = GameObject.Find("GameDirector");
             director.GetComponent<GameDirector>().DecreaseHp();
         }
 
-        if(Damaged_count == 10)
+        if (GameDirector.HP <= 0)
         {
             GameObject director = GameObject.Find("GameDirector");
             director.GetComponent<GameDirector>().Dead();
-            
         }
 
-        
-	}
+
+    }
 }
