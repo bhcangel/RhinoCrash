@@ -70,7 +70,6 @@ public class ComboGenerator : MonoBehaviour
                 GameObject director = GameObject.Find("GameDirector");
                 for (int i = 0; i < 4; i++)
                     director.GetComponent<GameDirector>().DecreaseHp();
-                    
             }
         }
     }

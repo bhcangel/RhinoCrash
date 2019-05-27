@@ -9,6 +9,7 @@ public class GameDirector : MonoBehaviour {
     GameObject hpGauge;
     public static int stage = 0;
     public static int HP = 10;
+  
     public static System.Random rand = new System.Random();
     // Use this for initialization
     void Start () {

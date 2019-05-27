@@ -9,7 +9,6 @@ public class ChangeScene : MonoBehaviour
     {
         SceneManager.LoadScene("GameScene");
     }
-
     public void NewStart()
     {
         SceneManager.LoadScene("StartScene");

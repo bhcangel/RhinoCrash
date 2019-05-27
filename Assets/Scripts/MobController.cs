@@ -7,7 +7,6 @@ public class MobController : MonoBehaviour {
     Vector3 downVector;
     public int line;
     float speed;
-    
 
 	// Use this for initialization
 	void Start () {
@@ -76,7 +75,5 @@ public class MobController : MonoBehaviour {
             GameObject director = GameObject.Find("GameDirector");
             director.GetComponent<GameDirector>().Dead();
         }
-
-
     }
 }

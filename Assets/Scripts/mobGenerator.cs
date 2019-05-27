@@ -21,30 +21,23 @@ public class mobGenerator : MonoBehaviour {
     void Update () {
         //프레임의 증가에 따라 delta가 증가하면서 spqwn에 도달시 새로운 몹 생성
         this.delta += Time.deltaTime;
-        if (count <= (GameDirector.stage == 1 ? 70 : 300))
+        if (count <= (GameDirector.stage == 1 ? 70 : 300) && this.delta > this.spawn)
         {
-            if (this.delta > this.spawn)
-            {
-                count++;
-                this.delta = 0;
-                GameObject mobPrefab = Instantiate(Resources.Load("Prefab/mobPrefab")) as GameObject;
-                float px = mob_pxBox[GameDirector.rand.Next(4)];
-                mobPrefab.transform.localScale = new Vector3(0.3f, 0.3f, 0);
-                mobPrefab.transform.position = new Vector3(px, 4.5f, 0);
-            }
+            count++;
+            this.delta = 0;
+            GameObject mobPrefab = Instantiate(Resources.Load("Prefab/mobPrefab")) as GameObject;
+            float px = mob_pxBox[GameDirector.rand.Next(4)];
+            mobPrefab.transform.localScale = new Vector3(0.3f, 0.3f, 0);
+            mobPrefab.transform.position = new Vector3(px, 4.5f, 0);
         }
-
-        if(count > (GameDirector.stage == 1 ? 70 : 300))
+        else if(GameDirector.stage == 2 && count > 300 && this.delta > this.spawn)
         {
-            if (this.delta > this.spawn)
-            {
-                count++;
-                this.delta = 0;
-                GameObject BossPrefab = Instantiate(Resources.Load("Prefab/BossPrefab")) as GameObject;
-                float px = boss_pxBox[GameDirector.rand.Next(3)];
-                BossPrefab.transform.localScale = new Vector3(0.5f, 0.5f, 0);
-                BossPrefab.transform.position = new Vector3(px, 4.5f, 0);
-            }
+            count++;
+            this.delta = 0;
+            GameObject BossPrefab = Instantiate(Resources.Load("Prefab/BossPrefab")) as GameObject;
+            float px = boss_pxBox[GameDirector.rand.Next(3)];
+            BossPrefab.transform.localScale = new Vector3(0.5f, 0.5f, 0);
+            BossPrefab.transform.position = new Vector3(px, 4.5f, 0);
         }
 
         if (count > (GameDirector.stage == 1 ? 100 : 350))
